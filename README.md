@@ -8,13 +8,15 @@ a Movie discovery app like Netflix
 - [ ] Detail
 
 ## API Verbs 
-- [ ] Now playing (Movie) 
-- [ ] Top Rated (TV, Movie)
-- [ ] Popular (TV, Movie)
-- [ ] Upcoming (Movie)
-- [ ] Airing Today (TV)
+- [x] Now playing (Movie) 
+- [x] Top Rated (TV)
+- [x] Popular (TV, Movie)
+- [x] Upcoming (Movie)
+- [x] Airing Today (TV)
+- [ ] TV Show Detail 
+- [ ] Movie Detail
 
 ## Resources
-* The Movie Database(TMDb): https://www.themoviedb.org/documentation/api?language=en-US
+* The Movie Database(TMDb): https://developers.themoviedb.org/3/getting-started/introduction
 * Axios: https://github.com/axios/axios
 * Color Palettes: https://flatuicolors.com/
