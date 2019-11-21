@@ -13,8 +13,9 @@ a Movie discovery app like Netflix
 - [x] Popular (TV, Movie)
 - [x] Upcoming (Movie)
 - [x] Airing Today (TV)
-- [ ] TV Show Detail 
-- [ ] Movie Detail
+- [x] TV Show Detail 
+- [x] Movie Detail
+- [X] Search (Movie, TV)
 
 ## Resources
 * The Movie Database(TMDb): https://developers.themoviedb.org/3/getting-started/introduction
