@@ -9,10 +9,10 @@ a Movie discovery app like Netflix
 
 ## API Verbs 
 - [x] Now playing (Movie) 
-- [x] Top Rated (TV)
-- [x] Popular (TV, Movie)
 - [x] Upcoming (Movie)
+- [x] Popular (TV, Movie)
 - [x] Airing Today (TV)
+- [x] Top Rated (TV)
 - [x] TV Show Detail 
 - [x] Movie Detail
 - [X] Search (Movie, TV)
