@@ -40,7 +40,7 @@ export default class extends React.Component {
 			}
 
 
-			console.log(result);
+			// console.log(result);
 
 		} catch {
 			this.setState({error: "Can't find any results."})
@@ -52,7 +52,7 @@ export default class extends React.Component {
 
 	render() {
 		const { result, error, loading } = this.state;
-		console.log(this.state);
+		// console.log(this.state);
 
 		return <DetailPresenter result={result} error={error} loading={loading} />;
 	}
