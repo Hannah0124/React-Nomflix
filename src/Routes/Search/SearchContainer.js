@@ -8,7 +8,7 @@ export default class extends React.Component {
     tvResults: null,
     searchTerm: "", 
 		error: null,
-		loading: false 
+		loading: false
 	};
 
 	handleSubmit = (event) => {
@@ -33,6 +33,7 @@ export default class extends React.Component {
 		this.setState({loading: true});
 
 		try {
+			// throw Error();
 			const {data: { results: movieResults }} = await moviesApi.search(searchTerm);
 			const {data: { results: tvResults }} = await tvApi.search(searchTerm);
 
@@ -43,7 +44,7 @@ export default class extends React.Component {
 
 		} catch {
 			this.setState({
-				error: "Can't find results."
+				error: "Can't find results.",
 			})
 
 		} finally {

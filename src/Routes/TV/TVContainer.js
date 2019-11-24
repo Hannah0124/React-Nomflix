@@ -17,6 +17,8 @@ export default class extends React.Component {
       const { data: { results: popular }} = await tvApi.popular();
       const { data: { results: airingToday }} = await tvApi.airingToday();
 
+      // throw Error();
+
       this.setState({
         topRated,
         popular,
