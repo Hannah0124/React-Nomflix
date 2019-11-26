@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Helmet from 'react-helmet';
 import Loader from '../../Components/Loader';
+import Message from '../../Components/Message';
 
 const Container = styled.div`
 	height: calc(100vh - 50px);
@@ -112,53 +114,57 @@ const Link = styled.a`
 
 const DetailPresenter = ({ result, error, loading }) =>
 	loading ? (
-		<Loader />
+		<>
+		  <Helmet><title>Loading | Nomflix</title></Helmet>
+			<Loader />
+		</>
 	) : (
-		<Container>
-			<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
-			<Content>
-				<Cover
-					bgImage={
-						result.poster_path ? (
-							`https://image.tmdb.org/t/p/original${result.poster_path}`
-						) : (
-							require('../../assets/noPosterSmall.png')
-						)
-					}
-				/>
-				<Data>
-					<Title>{result.original_title ? result.original_title : result.original_name}</Title>
-					<ItemContainer>
-						{/* year */}
-						<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
-						<Divider>∙</Divider>
+	  error ? <Message text={error} color="#e74c3c"/> : <Container>
+		<Helmet><title>{result.original_title ? result.original_title : result.original_name}{" "}| Nomflix</title></Helmet>
+		<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
+		<Content>
+			<Cover
+				bgImage={
+					result.poster_path ? (
+						`https://image.tmdb.org/t/p/original${result.poster_path}`
+					) : (
+						require('../../assets/noPosterSmall.png')
+					)
+				}
+			/>
+			<Data>
+				<Title>{result.original_title ? result.original_title : result.original_name}</Title>
+				<ItemContainer>
+					{/* year */}
+					<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
+					<Divider>∙</Divider>
 
-            {/* runtime */}
-						<Item>{result.runtime ? result.runtime : result.episode_run_time} min</Item>
-						<Divider>∙</Divider>
+					{/* runtime */}
+					<Item>{result.runtime ? result.runtime : result.episode_run_time} min</Item>
+					<Divider>∙</Divider>
 
-            {/* genres */}
-						{/* If it is a last item (index === results.genres.length - 1) */}
-						<Item>{result.genres && result.genres.map((genre, index) => index === result.genres.length - 1 ? genre.name : `${genre.name} / ` )} </Item>
-						<Divider>∙</Divider>
+					{/* genres */}
+					{/* If it is a last item (index === results.genres.length - 1) */}
+					<Item>{result.genres && result.genres.map((genre, index) => index === result.genres.length - 1 ? genre.name : `${genre.name} / ` )} </Item>
+					<Divider>∙</Divider>
 
-						{/* imdb */}
-						{/* test (Hannah) */}
-						<Item>{result.imdb_id ? <Imdb href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
-						<Divider>∙</Divider>
+					{/* imdb */}
+					{/* test (Hannah) */}
+					<Item>{result.imdb_id ? <Imdb href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
+					<Divider>∙</Divider>
 
-						{/* star rating */}
-						{/* test (Hannah) */}
-						<Item>{result.vote_average ? 
-						`⭐️⭐️⭐️⭐️⭐️ ${result.vote_average}/10` : 	`⭐️⭐️⭐️⭐️⭐️ ${result.last_episode_to_air.vote_average}/10`}
-						</Item>
-					</ItemContainer>
+					{/* star rating */}
+					{/* test (Hannah) */}
+					<Item>{result.vote_average ? 
+					`⭐️⭐️⭐️⭐️⭐️ ${result.vote_average}/10` : 	`⭐️⭐️⭐️⭐️⭐️ ${result.last_episode_to_air.vote_average}/10`}
+					</Item>
+				</ItemContainer>
 
-					{/* overview */}
-					<Overview>{result.overview}</Overview>
-				</Data>
-			</Content>
-		</Container>
+				{/* overview */}
+				<Overview>{result.overview}</Overview>
+			</Data>
+		</Content>
+	</Container>
 	);
 
 DetailPresenter.propTypes = {

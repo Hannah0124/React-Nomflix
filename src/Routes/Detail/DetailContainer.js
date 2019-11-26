@@ -31,6 +31,7 @@ export default class extends React.Component {
     
 		try {
 			if(isMovie) {
+				// throw Error();
 				// If it is a movie, we are going to look for a movieDetail.
 				// request.data = result (same as below)
 				({data: result} = await moviesApi.movieDetail(parsedId));
