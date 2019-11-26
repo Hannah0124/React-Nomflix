@@ -7,7 +7,7 @@ const Container = styled.div`
 	height: calc(100vh - 50px);
 	width: 100%;
 	position: relative;
-	*padding: 50px;
+	padding: 50px;
 `;
 
 const Backdrop = styled.div`
@@ -20,7 +20,7 @@ const Backdrop = styled.div`
 	background-size: cover;
 	filter: blur(3px);
 	opacity: 0.5;
-	*z-index: 0;
+	z-index: 0;
 `;
 
 // We need to have 2 columns
@@ -41,6 +41,75 @@ const Cover = styled.div`
 	border-radius: 5px;
 `;
 
+const Data = styled.div`
+	width: 70%;
+	margin-left: 10px;
+`;
+
+const Title = styled.h3`
+	font-size: 32px;
+	margin-bottom: 10px;
+`;
+
+const ItemContainer = styled.div`
+	margin: 20px 0;
+`;
+
+const Item = styled.span``;
+
+const Divider = styled.span`
+	margin: 0 10px;
+`;
+
+const Overview = styled.p`
+	font-size: 12px;
+	opacity: 0.7;
+	line-height: 1.5;
+	width: 50%;
+`;
+
+// test (Hannah)
+const Imdb = styled.a`
+	font: 2em/1 Impact, HelveticaNeue-CondensedBold, sans-serif; 
+  color: #000;
+  text-shadow: 0 0 .15em #fff;
+  text-decoration: none;
+  vertical-align: bottom;
+  padding: .25em .25em;
+  border-radius: .15em;
+  background: radial-gradient(#ffffb8, #ce981d);
+	height: 20px;
+	width: 40px;
+	font-size: 10px;
+	text-align: center;
+  &:hover {
+		opacity: .5;
+  }
+	z-index: 1;
+`;
+
+
+// test (Hannah)
+const Link = styled.a`
+	font: 2em/1 Impact, HelveticaNeue-CondensedBold, sans-serif; 
+  color: #000;
+  text-shadow: 0 0 .15em #fff;
+  text-decoration: none;
+  vertical-align: bottom;
+  padding: .25em .25em;
+  border-radius: .15em;
+  background: #ffffff;
+	height: 20px;
+	width: 40px;
+	font-size: 10px;
+	text-align: center;
+  &:hover {
+		opacity: .5;
+  }
+	z-index: 1;
+`;
+
+
 const DetailPresenter = ({ result, error, loading }) =>
 	loading ? (
 		<Loader />
@@ -48,7 +117,6 @@ const DetailPresenter = ({ result, error, loading }) =>
 		<Container>
 			<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
 			<Content>
-				{/* Find 'poster_path' from Network > click on "number?api_key" > previw > poster_path */}
 				<Cover
 					bgImage={
 						result.poster_path ? (
@@ -58,6 +126,37 @@ const DetailPresenter = ({ result, error, loading }) =>
 						)
 					}
 				/>
+				<Data>
+					<Title>{result.original_title ? result.original_title : result.original_name}</Title>
+					<ItemContainer>
+						{/* year */}
+						<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
+						<Divider>∙</Divider>
+
+            {/* runtime */}
+						<Item>{result.runtime ? result.runtime : result.episode_run_time} min</Item>
+						<Divider>∙</Divider>
+
+            {/* genres */}
+						{/* If it is a last item (index === results.genres.length - 1) */}
+						<Item>{result.genres && result.genres.map((genre, index) => index === result.genres.length - 1 ? genre.name : `${genre.name} / ` )} </Item>
+						<Divider>∙</Divider>
+
+						{/* imdb */}
+						{/* test (Hannah) */}
+						<Item>{result.imdb_id ? <Imdb href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
+						<Divider>∙</Divider>
+
+						{/* star rating */}
+						{/* test (Hannah) */}
+						<Item>{result.vote_average ? 
+						`⭐️⭐️⭐️⭐️⭐️ ${result.vote_average}/10` : 	`⭐️⭐️⭐️⭐️⭐️ ${result.last_episode_to_air.vote_average}/10`}
+						</Item>
+					</ItemContainer>
+
+					{/* overview */}
+					<Overview>{result.overview}</Overview>
+				</Data>
 			</Content>
 		</Container>
 	);
