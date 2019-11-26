@@ -22,7 +22,7 @@ export default class extends React.Component {
 
 	updateTerm = (event) => {
 		const { target: { value } } = event;
-		console.log(value);
+		// console.log(value);
 		this.setState({
 			searchTerm: value
 		})
