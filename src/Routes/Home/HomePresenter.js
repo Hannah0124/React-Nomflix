@@ -39,7 +39,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) =>
 						<Poster
 							key={movie.id}
 							id={movie.id}
-							mageUrl={movie.poster_path}
+							imageUrl={movie.poster_path}
 							title={movie.original_title}
 							rating={movie.vote_average}
 							year={movie.release_date && movie.release_date.substring(0, 4)}
@@ -57,7 +57,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) =>
 						<Poster
 							key={movie.id}
 							id={movie.id}
-							mageUrl={movie.poster_path}
+							imageUrl={movie.poster_path}
 							title={movie.original_title}
 							rating={movie.vote_average}
 							year={movie.release_date && movie.release_date.substring(0, 4)}

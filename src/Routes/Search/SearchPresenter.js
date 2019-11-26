@@ -33,7 +33,7 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, handleSubmit, up
 				<Poster
 					key={movie.id}
 					id={movie.id}
-					mageUrl={movie.poster_path}
+					imageUrl={movie.poster_path}
 					title={movie.original_title}
 					rating={movie.vote_average}
 					year={movie.release_date && movie.release_date.substring(0, 4)}
@@ -46,7 +46,7 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, handleSubmit, up
 				<Poster
 				key={show.id}
 				id={show.id}
-				mageUrl={show.poster_path}
+				imageUrl={show.poster_path}
 				title={show.original_name}
 				rating={show.vote_average}
 				year={show.first_air_date && show.first_air_date.substring(0, 4)}
