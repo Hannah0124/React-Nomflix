@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Helmet from 'react-helmet';
 import Loader from '../../Components/Loader';
 import Message from '../../Components/Message';
+import Iframe from 'react-iframe' // test (npm i react-iframe)
+import {tabView} from '../../Components/Tab';
 
 const Container = styled.div`
 	height: calc(100vh - 50px);
@@ -67,7 +69,7 @@ const Overview = styled.p`
 	font-size: 12px;
 	opacity: 0.7;
 	line-height: 1.5;
-	width: 50%;
+	width: 80%;
 `;
 
 // test (Hannah)
@@ -90,7 +92,6 @@ const Imdb = styled.a`
 	z-index: 1;
 `;
 
-
 // test (Hannah)
 const Link = styled.a`
 	font: 2em/1 Impact, HelveticaNeue-CondensedBold, sans-serif; 
@@ -111,8 +112,154 @@ const Link = styled.a`
 	z-index: 1;
 `;
 
+const VideoContainer = styled.div`
+	display: flex;
+	width: 100%;
+	margin-top: 10px;
+	overflow: auto;
+  overflow-y: hidden;
+	  /* width */
+		::-webkit-scrollbar {
+  width: 20px;
+	}
+	/* Track */
+	::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 5px grey; 
+		border-radius: 10px;
+	}
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		background: #ffffff; 
+		border-radius: 10px;
+	}
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+		background: #b30000; 
+	}
+`;
 
-const DetailPresenter = ({ result, error, loading }) =>
+const CContainer = styled.div`
+ background: opacity 0.2; 
+	display: flex;
+	height: 300px;
+	width: 100%;
+	margin-top: 10px;
+	padding-left: 10px;
+	overflow: auto;
+  overflow-wrap: hidden;
+	/* width */
+	::-webkit-scrollbar {
+ 	 width: 20px;
+	}
+	/* Track */
+	::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 5px grey; 
+		border-radius: 10px;
+	}
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		background: #ffffff; 
+		border-radius: 10px;
+	}
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+		background: #b30000; 
+	}
+`;
+
+const CompanyContainer = styled.div`
+	font-size: 15px;
+	padding: 0px;
+`;
+
+const CompanyLogo = styled.img`
+  width: 180px;
+	height: auto;
+	display: block;
+	margin: 0 auto 0 auto;
+	padding: 0px;
+`;
+
+const CompanyName = styled.div`
+  margin: 0 auto 15px auto;
+	text-align: center;
+  font-weight: normal;
+	font-weight: bold;
+`;
+
+const CreatorContainer = styled.div`
+  margin-left: 100px;
+	font-size: 15px;
+`;
+
+const CreatorImg = styled.img`
+  width: 180px;
+	height: auto;
+`;
+
+const CreatorName = styled.li`
+  font-weight: normal;
+	list-style: none;
+	text-align: center;
+	margin: 0px auto 15px auto;
+	z-index: 2;
+	/* display: inline;
+	::after {
+		content: ", ";
+	}
+
+	:last-child::after {
+    content: "";
+	} */
+`;
+
+const LocationContainer = styled.div`
+	font-size: 25px;
+	margin-left: 10px;
+`;
+
+const SeasonContainer = styled.div`
+display: flex;
+height: 300px;
+overflow: auto;
+overflow-wrap: hidden;
+	/* width */
+	::-webkit-scrollbar {
+		width: 20px;
+	}
+	/* Track */
+	::-webkit-scrollbar-track {
+		box-shadow: inset 0 0 5px grey; 
+		border-radius: 10px;
+	}
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		background: #ffffff; 
+		border-radius: 10px;
+	}
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+		background: #b30000; 
+	}
+`;
+
+const Season = styled.div``;
+
+const SeasonImg = styled.img`
+	width: 180px;
+	height: auto;
+	max-height: 250px;
+	padding: 0;
+	margin-right: 5px;
+	border-radius: 5px;
+`;
+
+const SeasonContents = styled.div`
+  width: 180px;  
+	margin-right: 5px;
+`;
+
+const DetailPresenter = ({ result, error, loading, isMovie }) =>
 	loading ? (
 		<>
 		  <Helmet><title>Loading | Nomflix</title></Helmet>
@@ -149,19 +296,77 @@ const DetailPresenter = ({ result, error, loading }) =>
 					<Divider>∙</Divider>
 
 					{/* imdb */}
-					{/* test (Hannah) */}
-					<Item>{result.imdb_id ? <Imdb href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
+					<Item>{result.imdb_id ? <Imdb key={result.imdb_id} href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
 					<Divider>∙</Divider>
 
 					{/* star rating */}
-					{/* test (Hannah) */}
+					{/* test */}
 					<Item>{result.vote_average ? 
 					`⭐️⭐️⭐️⭐️⭐️ ${result.vote_average}/10` : 	`⭐️⭐️⭐️⭐️⭐️ ${result.last_episode_to_air.vote_average}/10`}
 					</Item>
 				</ItemContainer>
 
 				{/* overview */}
-				<Overview>{result.overview}</Overview>
+				<Overview>{result.overview}</Overview>	
+
+				{/* test */}
+				{/* trailers, produced by, filiming location, season */}
+				{tabView(['Trailers', (isMovie ? 'Produced By' : 'Produced & Created By'), (isMovie ? 'Filiming Location' : "Seasons")], 
+				[
+					<VideoContainer>
+						{result.videos.results.length > 0 ? result.videos.results.map(video => video.key &&  <Iframe key={video.id} title="youtube vidoes" width="320" height="245" src={`https://www.youtube.com/embed/${video.key}`}></Iframe>) 
+						:
+						<div>There is no trailer</div>
+						}
+					</VideoContainer>,
+
+					isMovie ?
+					// company 
+					<CContainer>
+						<CompanyContainer>
+							{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.logo_path} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div> : <div><CompanyLogo key={`${company.id}${company.name}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div>)}
+						</CompanyContainer>
+					</CContainer> :
+
+					// company & creator
+					<CContainer>
+						<CompanyContainer>
+							{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.logo_path} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div> : <div><CompanyLogo key={`${company.id}${Date.now()}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div>)}	
+						</CompanyContainer>	
+						<CreatorContainer>
+							{result.created_by && result.created_by.map(creator => creator.profile_path ? 
+							  <div>
+									<CreatorImg key={creator.profile_path} src={`https://image.tmdb.org/t/p/w300${creator.profile_path}`} alt={creator.name}></CreatorImg><CreatorName key={creator.id}>{creator.name}</CreatorName></div> :
+								<div>
+									<CreatorImg key={`${creator.id}${creator.name}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CreatorImg>
+									<CreatorName key={`${creator.id}${creator.name}`}>{creator.name}</CreatorName>
+								</div> 				
+							)}
+						</CreatorContainer>
+					</CContainer>, 
+					
+					isMovie ? 
+					// location
+					<LocationContainer key={Date.now()}>
+						{result.production_countries && result.production_countries.map(country => country.name)}
+					</LocationContainer> : 
+					// seasons
+					<SeasonContainer>
+						{result.seasons && result.seasons.map(season => season.air_date && (
+							<Season>
+								{season.name} ({season.air_date && season.air_date.substring(0,4)}) 
+								<br/><br/>
+								<SeasonImg key={season.id} src={season.poster_path ? (
+				          `https://image.tmdb.org/t/p/w300${season.poster_path}` 
+							  ) : (
+										require("../../assets/noPosterSmall.png")
+										)}>
+								</SeasonImg>  
+								<SeasonContents><br/>{season.overview && season.overview}</SeasonContents>	
+							</Season>) 
+						)}
+					</SeasonContainer>
+				])}
 			</Data>
 		</Content>
 	</Container>
@@ -170,7 +375,8 @@ const DetailPresenter = ({ result, error, loading }) =>
 DetailPresenter.propTypes = {
 	result: PropTypes.object,
 	error: PropTypes.string,
-	loading: PropTypes.bool.isRequired
+	loading: PropTypes.bool.isRequired,
+	isMovie: PropTypes.bool
 };
 
 export default DetailPresenter;
