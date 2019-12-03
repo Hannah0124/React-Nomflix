@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Helmet from 'react-helmet';
 import Loader from '../../Components/Loader';
 import Message from '../../Components/Message';
+import Collection from '../../Components/Collection';
 import Iframe from 'react-iframe' // test (npm i react-iframe)
 import {tabView} from '../../Components/Tab';
 
@@ -112,6 +113,8 @@ const Link = styled.a`
 	z-index: 1;
 `;
 
+const TabContainer = styled.div``;
+
 const VideoContainer = styled.div`
 	display: flex;
 	width: 100%;
@@ -139,12 +142,13 @@ const VideoContainer = styled.div`
 `;
 
 const CContainer = styled.div`
- background: opacity 0.2; 
 	display: flex;
 	height: 300px;
 	width: 100%;
+	left: auto;
+	right: auto;
 	margin-top: 10px;
-	padding-left: 10px;
+	padding-left: 30px;
 	overflow: auto;
   overflow-wrap: hidden;
 	/* width */
@@ -167,7 +171,8 @@ const CContainer = styled.div`
 	}
 `;
 
-const CompanyContainer = styled.div`
+
+const CompanyContainer = styled.div` 
 	font-size: 15px;
 	padding: 0px;
 `;
@@ -176,8 +181,10 @@ const CompanyLogo = styled.img`
   width: 180px;
 	height: auto;
 	display: block;
-	margin: 0 auto 0 auto;
-	padding: 0px;
+	margin: 0 auto 10px auto;
+	padding: 5px;
+	background-color: lightgray; 
+	opacity: 0.8;
 `;
 
 const CompanyName = styled.div`
@@ -202,7 +209,6 @@ const CreatorName = styled.li`
 	list-style: none;
 	text-align: center;
 	margin: 0px auto 15px auto;
-	z-index: 2;
 	/* display: inline;
 	::after {
 		content: ", ";
@@ -259,6 +265,13 @@ const SeasonContents = styled.div`
 	margin-right: 5px;
 `;
 
+const CollectionContainer = styled.span`
+ float: right;
+ top: 0;
+ right: 0;
+ /* display: grid; */
+`;
+
 const DetailPresenter = ({ result, error, loading, isMovie }) =>
 	loading ? (
 		<>
@@ -266,110 +279,122 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
 			<Loader />
 		</>
 	) : (
-	  error ? <Message text={error} color="#e74c3c"/> : <Container>
-		<Helmet><title>{result.original_title ? result.original_title : result.original_name}{" "}| Nomflix</title></Helmet>
-		<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
-		<Content>
-			<Cover
-				bgImage={
-					result.poster_path ? (
-						`https://image.tmdb.org/t/p/original${result.poster_path}`
-					) : (
-						require('../../assets/noPosterSmall.png')
-					)
-				}
-			/>
-			<Data>
-				<Title>{result.original_title ? result.original_title : result.original_name}</Title>
-				<ItemContainer>
-					{/* year */}
-					<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
-					<Divider>∙</Divider>
-
-					{/* runtime */}
-					<Item>{result.runtime ? result.runtime : result.episode_run_time} min</Item>
-					<Divider>∙</Divider>
-
-					{/* genres */}
-					{/* If it is a last item (index === results.genres.length - 1) */}
-					<Item>{result.genres && result.genres.map((genre, index) => index === result.genres.length - 1 ? genre.name : `${genre.name} / ` )} </Item>
-					<Divider>∙</Divider>
-
-					{/* imdb */}
-					<Item>{result.imdb_id ? <Imdb key={result.imdb_id} href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
-					<Divider>∙</Divider>
-
-					{/* star rating */}
+	  error ? <Message text={error} color="#e74c3c"/> : 
+		<Container>
+			<Helmet><title>{result.original_title ? result.original_title : result.original_name}{" "}| Nomflix</title></Helmet>
+			<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
+			<Content>
+				<Cover
+					bgImage={
+						result.poster_path ? (
+							`https://image.tmdb.org/t/p/original${result.poster_path}`
+						) : (
+							require('../../assets/noPosterSmall.png')
+						)
+					}
+				/>
+				<Data>
 					{/* test */}
-					<Item>{result.vote_average ? 
-					`⭐️⭐️⭐️⭐️⭐️ ${result.vote_average}/10` : 	`⭐️⭐️⭐️⭐️⭐️ ${result.last_episode_to_air.vote_average}/10`}
-					</Item>
-				</ItemContainer>
+				  <CollectionContainer>
+						{isMovie && result.belongs_to_collection && <Collection collection_id={result.belongs_to_collection.id} key={result.belongs_to_collection.id} {...result}/>}
+					</CollectionContainer>
 
-				{/* overview */}
-				<Overview>{result.overview}</Overview>	
+					<Title>{result.original_title ? result.original_title : result.original_name}</Title>
+									
+					<ItemContainer>
+						{/* year */}
+						<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
+						<Divider>∙</Divider>
 
-				{/* test */}
-				{/* trailers, produced by, filiming location, season */}
-				{tabView(['Trailers', (isMovie ? 'Produced By' : 'Produced & Created By'), (isMovie ? 'Filiming Location' : "Seasons")], 
-				[
-					<VideoContainer>
-						{result.videos.results.length > 0 ? result.videos.results.map(video => video.key &&  <Iframe key={video.id} title="youtube vidoes" width="320" height="245" src={`https://www.youtube.com/embed/${video.key}`}></Iframe>) 
-						:
-						<div>There is no trailer</div>
+						{/* runtime */}
+						<Item>{result.runtime ? result.runtime : result.episode_run_time} min</Item>
+						<Divider>∙</Divider>
+
+						{/* genres */}
+						{/* If it is a last item (index === results.genres.length - 1) */}
+						<Item>{result.genres && result.genres.map((genre, index) => index === result.genres.length - 1 ? genre.name : `${genre.name} / ` )} </Item>
+						<Divider>∙</Divider>
+
+						{/* imdb */}
+						<Item>{result.imdb_id ? <Imdb key={result.imdb_id} href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
+						<Divider>∙</Divider>
+
+						{/* star rating */}
+						{/* test */}
+						<Item>{result.vote_average ? 
+						`⭐️⭐️⭐️⭐️⭐️ ${result.vote_average}/10` : 	`⭐️⭐️⭐️⭐️⭐️ ${result.last_episode_to_air.vote_average}/10`}
+						</Item>
+					</ItemContainer>
+
+					{/* overview */}
+					<Overview>{result.overview}</Overview>	
+
+					{/* test */}
+					{/* trailers, produced by, filiming location, season */}
+					<TabContainer>
+						{tabView(['Trailers', (isMovie ? 'Produced By' : 'Produced & Created By'), (isMovie ? 'Filiming Location' : "Seasons")], 
+						[
+							<VideoContainer>
+								{result.videos.results.length > 0 ? result.videos.results.map(video => video.key &&  <Iframe key={video.id} title="youtube vidoes" width="320" height="245" src={`https://www.youtube.com/embed/${video.key}`}></Iframe>) 
+								:
+								<div>There is no trailer</div>
+								}
+							</VideoContainer>,
+
+							isMovie ?
+							// company 
+							<CContainer>
+								<CompanyContainer>
+									{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.id} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div> : 
+									<div><CompanyLogo key={company.id} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div>)}
+									</CompanyContainer>
+							</CContainer> :
+
+							// company & creator
+							<CContainer>
+								<CompanyContainer>
+									{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.logo_path} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div> : <div><CompanyLogo key={`${company.id}${Date.now()}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={`${company.name}${Date.now()}`}>{company.name}</CompanyName></div>)}	
+								</CompanyContainer>	
+								<CreatorContainer>
+									{result.created_by && result.created_by.map(creator => creator.profile_path ? 
+										<div>
+											<CreatorImg key={creator.profile_path} src={`https://image.tmdb.org/t/p/w300${creator.profile_path}`} alt={creator.name}></CreatorImg><CreatorName key={creator.id}>{creator.name}</CreatorName></div> :
+										<div>
+											<CreatorImg key={creator.id} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CreatorImg>
+											<CreatorName key={`${creator.id}${Date.now()}`}>{creator.name}</CreatorName>
+										</div> 				
+									)}
+								</CreatorContainer>
+							</CContainer>, 
+							
+							isMovie ? 
+							// location
+							<LocationContainer key={Date.now()}>
+								{result.production_countries && result.production_countries.map(country => country.name)}
+							</LocationContainer> : 
+							// seasons
+							<SeasonContainer>
+								{result.seasons && result.seasons.map(season => season.air_date && (
+									<Season>
+										{season.name} ({season.air_date && season.air_date.substring(0,4)}) 
+										<br/><br/>
+										<SeasonImg key={season.id} src={season.poster_path ? (
+											`https://image.tmdb.org/t/p/w300${season.poster_path}` 
+										) : (
+												require("../../assets/noPosterSmall.png")
+												)}>
+										</SeasonImg>  
+										<SeasonContents><br/>{season.overview && season.overview}</SeasonContents>	
+									</Season>) 
+								)}
+							</SeasonContainer>
+						])
 						}
-					</VideoContainer>,
+					</TabContainer>
 
-					isMovie ?
-					// company 
-					<CContainer>
-						<CompanyContainer>
-							{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.logo_path} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div> : <div><CompanyLogo key={`${company.id}${company.name}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div>)}
-						</CompanyContainer>
-					</CContainer> :
-
-					// company & creator
-					<CContainer>
-						<CompanyContainer>
-							{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.logo_path} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div> : <div><CompanyLogo key={`${company.id}${Date.now()}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div>)}	
-						</CompanyContainer>	
-						<CreatorContainer>
-							{result.created_by && result.created_by.map(creator => creator.profile_path ? 
-							  <div>
-									<CreatorImg key={creator.profile_path} src={`https://image.tmdb.org/t/p/w300${creator.profile_path}`} alt={creator.name}></CreatorImg><CreatorName key={creator.id}>{creator.name}</CreatorName></div> :
-								<div>
-									<CreatorImg key={`${creator.id}${creator.name}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CreatorImg>
-									<CreatorName key={`${creator.id}${creator.name}`}>{creator.name}</CreatorName>
-								</div> 				
-							)}
-						</CreatorContainer>
-					</CContainer>, 
-					
-					isMovie ? 
-					// location
-					<LocationContainer key={Date.now()}>
-						{result.production_countries && result.production_countries.map(country => country.name)}
-					</LocationContainer> : 
-					// seasons
-					<SeasonContainer>
-						{result.seasons && result.seasons.map(season => season.air_date && (
-							<Season>
-								{season.name} ({season.air_date && season.air_date.substring(0,4)}) 
-								<br/><br/>
-								<SeasonImg key={season.id} src={season.poster_path ? (
-				          `https://image.tmdb.org/t/p/w300${season.poster_path}` 
-							  ) : (
-										require("../../assets/noPosterSmall.png")
-										)}>
-								</SeasonImg>  
-								<SeasonContents><br/>{season.overview && season.overview}</SeasonContents>	
-							</Season>) 
-						)}
-					</SeasonContainer>
-				])}
-			</Data>
-		</Content>
-	</Container>
+				</Data>
+			</Content>
+	  </Container>
 	);
 
 DetailPresenter.propTypes = {

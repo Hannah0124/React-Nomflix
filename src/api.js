@@ -21,7 +21,8 @@ export const moviesApi = {
     params: {
       query: encodeURIComponent(term)
     }
-  })
+  }),
+  getCollection: (collection_id) => api.get(`collection/${collection_id}`)
 }
 
 export const tvApi = {

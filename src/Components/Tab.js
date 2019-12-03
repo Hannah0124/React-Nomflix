@@ -10,6 +10,9 @@ const Container = styled.div`
 const Title = styled.div`
   font-weight: bold;
   font-size: 15px;
+	:hover {
+			color: peru;
+		}
 `
 
 export const tabView = (tabTitles, contents) => (
