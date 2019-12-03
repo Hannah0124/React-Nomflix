@@ -353,12 +353,13 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
 							// company & creator
 							<CContainer>
 								<CompanyContainer>
-									{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.logo_path} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={company.id}>{company.name}</CompanyName></div> : <div><CompanyLogo key={`${company.id}${Date.now()}`} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={`${company.name}${Date.now()}`}>{company.name}</CompanyName></div>)}	
+									{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.id} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div> : 
+									<div><CompanyLogo key={company.id} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div>)}	
 								</CompanyContainer>	
 								<CreatorContainer>
 									{result.created_by && result.created_by.map(creator => creator.profile_path ? 
 										<div>
-											<CreatorImg key={creator.profile_path} src={`https://image.tmdb.org/t/p/w300${creator.profile_path}`} alt={creator.name}></CreatorImg><CreatorName key={creator.id}>{creator.name}</CreatorName></div> :
+											<CreatorImg key={creator.id} src={`https://image.tmdb.org/t/p/w300${creator.profile_path}`} alt={creator.name}></CreatorImg><CreatorName key={`${creator.id}${Date.now()}`}>{creator.name}</CreatorName></div> :
 										<div>
 											<CreatorImg key={creator.id} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CreatorImg>
 											<CreatorName key={`${creator.id}${Date.now()}`}>{creator.name}</CreatorName>

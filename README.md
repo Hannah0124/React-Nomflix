@@ -30,3 +30,6 @@ a Movie discovery app like Netflix
 * Axios: https://github.com/axios/axios
 * Color Palettes: https://flatuicolors.com/
 * Tabs: https://sandny.com/2019/10/28/simple-tab-view-using-react-tabs/
+
+# Preview:
+Try it on [netlify](https://nomflix-loving-elion-919596.netlify.com/#/)
