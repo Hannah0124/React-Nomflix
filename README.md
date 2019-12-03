@@ -26,6 +26,7 @@ a Movie discovery app like Netflix
 
 ## Resources
 * The Movie Database(TMDb): https://developers.themoviedb.org/3/getting-started/introduction
+* Netlify: Deployment for static websites
 * Axios: https://github.com/axios/axios
 * Color Palettes: https://flatuicolors.com/
 * Tabs: https://sandny.com/2019/10/28/simple-tab-view-using-react-tabs/
