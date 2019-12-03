@@ -73,7 +73,12 @@ const Overview = styled.p`
 	width: 80%;
 `;
 
+
 // test (Hannah)
+const LogoContainer = styled.span`
+	display: inline;
+`;
+
 const Imdb = styled.a`
 	font: 2em/1 Impact, HelveticaNeue-CondensedBold, sans-serif; 
   color: #000;
@@ -316,9 +321,21 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
 						<Divider>∙</Divider>
 
 						{/* imdb */}
-						<Item>{result.imdb_id ? <Imdb key={result.imdb_id} href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb> : <Link href={result.homepage} target="_blank">Home</Link>}</Item>
-						<Divider>∙</Divider>
-
+						{result.imdb_id &&
+						<LogoContainer>
+							<Item>{ <Imdb key={result.imdb_id} href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank">IMDb</Imdb>}</Item>
+					  	<Divider>∙</Divider>
+						</LogoContainer>
+						}
+						
+						{/* homepage */}
+						{result.homepage &&
+						<LogoContainer>
+							<Item><Link href={result.homepage} target="_blank">Home</Link></Item>
+							<Divider>∙</Divider>
+				  	</LogoContainer> 
+						}
+						
 						{/* star rating */}
 						{/* test */}
 						<Item>{result.vote_average ? 
@@ -379,11 +396,12 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
 									<Season>
 										{season.name} ({season.air_date && season.air_date.substring(0,4)}) 
 										<br/><br/>
+										{`result? ${season.id}`}
 										<SeasonImg key={season.id} src={season.poster_path ? (
 											`https://image.tmdb.org/t/p/w300${season.poster_path}` 
-										) : (
+									  	) : (
 												require("../../assets/noPosterSmall.png")
-												)}>
+									  	)}>
 										</SeasonImg>  
 										<SeasonContents><br/>{season.overview && season.overview}</SeasonContents>	
 									</Season>) 
