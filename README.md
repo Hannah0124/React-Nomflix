@@ -5,7 +5,11 @@ Moves & TV shows discovery app like IMDB
 ## Demo video 
 To see a demo video, click the screenshot below.
 
-<Iframe key={video.id} title="youtube vidoes" width="320" height="245" src={https://youtu.be/eaKlEg95OkQ}></Iframe>
+<Iframe title="youtube vidoes" width="320" height="245" src="https://youtu.be/eaKlEg95OkQ"></Iframe>
+
+<a style="float:right" href="https://youtu.be/eaKlEg95OkQ" target="_blank">
+  <img alt="Demo Video" width="320" height="245" src="https://i.ibb.co/R97HYfk/nomflix.png" />
+</a>
 
 
 ## Preview
