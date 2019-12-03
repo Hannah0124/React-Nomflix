@@ -19,11 +19,11 @@ export const tabView = (tabTitles, contents) => (
 	<Container>
 		<Tabs>
 			<TabList>
-        {tabTitles.map((title) => <Tab><Title>{title}</Title></Tab>)}
+        {tabTitles.map((title, idx) => <Tab key={`${idx}${Date.now()}`}><Title>{title}</Title></Tab>)}
       </TabList>
 
-			{contents.map((content) => (
-				<TabPanel>
+			{contents.map((content, idx) => (
+				<TabPanel key={`${idx}${Date.now()}`}>
 					<h2>{content}</h2>
 				</TabPanel>
 			))}

@@ -345,8 +345,8 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
 							// company 
 							<CContainer>
 								<CompanyContainer>
-									{result.production_companies && result.production_companies.map(company => company.logo_path ? <div><CompanyLogo key={company.id} src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div> : 
-									<div><CompanyLogo key={company.id} src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName key={`${company.id}${Date.now()}`}>{company.name}</CompanyName></div>)}
+									{result.production_companies && result.production_companies.map(company => company.logo_path ? <div key={company.id}><CompanyLogo src={`https://image.tmdb.org/t/p/w300${company.logo_path}`} alt={company.name}></CompanyLogo><CompanyName>{company.name}</CompanyName></div> : 
+									<div key={company.id}><CompanyLogo src={require("../../assets/image-not-available.png")} alt="Image Not avaiable"></CompanyLogo><CompanyName>{company.name}</CompanyName></div>)}
 									</CompanyContainer>
 							</CContainer> :
 

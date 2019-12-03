@@ -155,7 +155,7 @@ const CollectionPresenter = withRouter(({ loading, collection }) =>
           <CollectionGroup>
             {collection.parts.title}
             {collection.parts && collection.parts.map(part => 
-            <PartBox>
+            <PartBox key={part.id}>
               <PartTitle>{part.title} ({part.release_date.substring(0, 4)})</PartTitle>
               <PartGroup>
                 <Link to={`/movie/${part.id}`}>
