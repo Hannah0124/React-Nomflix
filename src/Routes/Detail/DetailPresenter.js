@@ -396,7 +396,6 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
 									<Season>
 										{season.name} ({season.air_date && season.air_date.substring(0,4)}) 
 										<br/><br/>
-										{`result? ${season.id}`}
 										<SeasonImg key={season.id} src={season.poster_path ? (
 											`https://image.tmdb.org/t/p/w300${season.poster_path}` 
 									  	) : (
